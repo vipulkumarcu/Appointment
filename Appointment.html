@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Appointment.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <title> Book Appointment </title>
+</head>
+<body>
+    <br>
+    <div class="container-fluid">
+        <h1> Book Your Appointment </h1>
+    </div>
+    <hr>
+    
+    <div class="container-fluid">
+        <form id="appointmentForm" onsubmit="return false;">
+                <div class="form-floating">
+                    <input type="text" name="fullName" id="fullName" class="form-control" placeholder="Enter Your Name:">
+                    <label for="fullName"> Name: </label>
+                </div>
+                
+                <div class="form-floating">
+                    <input type="email" name="emailID" id="emailID"  class="form-control" placeholder="Enter Your E-mail ID:">
+                    <label for="emailID"> E-mail: </label>
+                </div>
+                
+                <div class="form-floating">
+                    <input type="text" name="contact" id="contact" class="form-control" placeholder="Enter Your Contact Number:">
+                    <label for="contact"> Contact Number:</label>
+                </div>
+                
+                <div class="form-floating">
+                    <input type="date" name="bookedDate" id="bookedDate" class="form-control">
+                    <label for="bookedDate"> Date: </label>
+                </div>
+
+                <div class="form-floating">
+                    <input type="time" name="bookedTime" id="bookedTime" class="form-control">
+                    <label for="bookedDate"> Time: </label>
+                </div>
+                
+                <input type="submit" class="button button1 btn-success" value="Book Appointment"">
+        </form>
+    </div>
+    <br> <br> <br> <br>
+
+    <div class="container-fluid">
+        <h2> Appointment History </h2>
+    </div>
+
+    <div  class="table-responsive-md container-fluid">
+        <table style="width:100%" class="table table-striped table-bordered" id="items">
+            <tr class="table-success">
+                <th> Name </th>
+                <th> E-mail ID </th>
+                <th> Contact Number </th>
+                <th> Date </th>
+                <th> Time </th>
+                <th> Edit </th>
+                <th> Delete </th>
+                <th style="display: none;"> Serial Number </th>
+            </tr>
+        </table>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+    <script src="Appointment.js">
+    </script>
+</body>
+</html>
