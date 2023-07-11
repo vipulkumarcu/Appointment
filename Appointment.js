@@ -1,33 +1,38 @@
 // Form submit event
-    var form = document.getElementById('appointmentForm');
-    form.addEventListener('submit', addItem);
+var form = document.getElementById('appointmentForm');
+form.addEventListener('submit', addItem);
+
 
 // Delete event
-    var itemList = document.getElementsByClassName('btn-danger');
+var itemList = document.getElementsByClassName('btn-danger');
+
 
 // Edit event
-    var editList = document.getElementsByClassName('btn-success');
+var editList = document.getElementsByClassName('btn-success');
 
-// Maintaining a count to be used as key for entries in the database
-    var count = 0;
+// Count Variable for maintaining Row Count
+var count = 0;
 
-// Maintaining a serial variable to be used as a unique key in the table and database
-    var serial = 0;
 
-// Adding saved data from the database to the Web Page
+
+
+// Adding saved data from the database to the Web Page every time the page is loaded
 window.addEventListener ("DOMContentLoaded", () => 
 {
-      // GET Request
-    axios.get ("https://crudcrud.com/api/2099092803a0415daaa10b190eb6dd2e/appointmentData")
-         .then ((response) => 
-         {
+    // GET Request
+    axios.get ("https://crudcrud.com/api/ff2356372f724540b350a4a53f525160/appointmentData")
+        .then ((response) => 
+        {
             for (let i = 0; i < response.data.length; i++)
             {
                 logInput (response.data[i]);
             }
-         })
-         .catch (error => console.log (error));
-})    
+        })
+        .catch (error => console.log (error));
+});
+
+
+
 
 // Add item
 function addItem(e)
@@ -50,11 +55,8 @@ function addItem(e)
             Time: bookedTime
         };
 
-    // Converting the data to JSON
-        var myObj_serialized = JSON.stringify(myObj);
-
     // POST Request
-        axios.post ("https://crudcrud.com/api/2099092803a0415daaa10b190eb6dd2e/appointmentData", myObj)
+        axios.post ("https://crudcrud.com/api/ff2356372f724540b350a4a53f525160/appointmentData", myObj)
             .then (alert("Booking Confirmed"))
             .catch (error => console.log (error));
     
@@ -64,6 +66,9 @@ function addItem(e)
     // Refreshing the entire page
         location.reload();
 }
+
+
+
 
 function logInput(response)
 {        
@@ -90,7 +95,6 @@ function logInput(response)
         var cell5 = row.insertCell(5);
         var cell6 = row.insertCell(6);
         var cell7 = row.insertCell(7);
-        var cell8 = row.insertCell(8);
 
     // Adding ID
         cell0.innerHTML = userID;
@@ -103,10 +107,6 @@ function logInput(response)
         cell4.innerHTML = bookedDate;
         cell5.innerHTML = bookedTime;
 
-    // Adding 8th Column for maintaing serial number and setting its display property to none
-        cell8.innerHTML = ++serial;
-        cell8.style = "display: none";
-
     
 
     // Creating Edit button element
@@ -116,13 +116,14 @@ function logInput(response)
         editBtn.className = 'btn btn-success';
 
     // Onclick Function Call
-        editBtn.onclick = function(){editItem(this);};
+        editBtn.onclick = function(){editItem(response);};
 
     // Appending text node
         editBtn.appendChild(document.createTextNode('Edit'));
 
     // Appending Edit button to the column
         cell6.appendChild(editBtn);
+
 
 
         
@@ -133,7 +134,7 @@ function logInput(response)
         deleteBtn.className = 'btn btn-danger';
 
     // Onclick Function Call
-        deleteBtn.onclick = function(){removeItem(this);};
+        deleteBtn.onclick = function(){removeItem(response);};
 
     // Appending text node
         deleteBtn.appendChild(document.createTextNode('Delete'));
@@ -144,29 +145,31 @@ function logInput(response)
 
 
 
+
 // Remove item
 function removeItem(deleteItem)
 {
-    // Variable to store Row Number
-        var rowCount = (deleteItem.parentNode.parentNode.rowIndex);
-        var serialNumber = deleteItem.parentNode.nextSibling.innerHTML;
-    // Deleting from the Selected Row
-        document.getElementById('items').deleteRow(rowCount);
-    // Deleting from the Cloud
-        // localStorage.removeItem(serialNumber);
-    // Decrementing count so that, count = the number of rows 
-        count--;
+    // Storing the _id from the database in a variable
+    var serialNumber = deleteItem._id;
+
+    // DELETE request
+    axios.delete (`https://crudcrud.com/api/ff2356372f724540b350a4a53f525160/appointmentData/${serialNumber}`)
+         .then (alert("Booking Deleted"))
+         .catch(error => console.error(error));
+    
+    // Refreshing the entire page
+    location.reload();
 }
+
+
 
 
 // Edit item
 function editItem(editItem)
 {
-    // Variable to store Row Number
-        var rowCount = (editItem.parentNode.parentNode.rowIndex);
-        var serialNumber = editItem.parentNode.nextSibling.nextSibling.innerHTML;
-    // Parsing the data from JSON
-        var obj = JSON.parse(localStorage.getItem(serialNumber));
+    // Storing the _id from the database in a variable
+    var serialNumber = deleteItem._id;
+
     // Variable to store particular data from the object 
         var fullName = obj.Name;
         var emailID = obj.Email;
