@@ -14,6 +14,20 @@
 // Maintaining a serial variable to be used as a unique key in the table and database
     var serial = 0;
 
+// Adding saved data from the database to the Web Page
+window.addEventListener ("DOMContentLoaded", () => 
+{
+      // GET Request
+    axios.get ("https://crudcrud.com/api/2099092803a0415daaa10b190eb6dd2e/appointmentData")
+         .then ((response) => 
+         {
+            for (let i = 0; i < response.data.length; i++)
+            {
+                logInput (response.data[i]);
+            }
+         })
+         .catch (error => console.log (error));
+})    
 
 // Add item
 function addItem(e)
@@ -40,17 +54,21 @@ function addItem(e)
         var myObj_serialized = JSON.stringify(myObj);
 
     // POST Request
-        axios.post ("https://crudcrud.com/api/7fa20286195844a58fb6765526eec6a5/appointmentData", myObj)
-            .then (response => logInput (response.data))
+        axios.post ("https://crudcrud.com/api/2099092803a0415daaa10b190eb6dd2e/appointmentData", myObj)
+            .then (alert("Booking Confirmed"))
             .catch (error => console.log (error));
     
     // Resetting the form
         form.reset();
+    
+    // Refreshing the entire page
+        location.reload();
 }
 
 function logInput(response)
 {        
     // Extracting Data from the Object
+        var userID = response._id;
         var fullName = response.Name;
         var emailID = response.Email;
         var contact = response.Contact;
@@ -72,17 +90,22 @@ function logInput(response)
         var cell5 = row.insertCell(5);
         var cell6 = row.insertCell(6);
         var cell7 = row.insertCell(7);
+        var cell8 = row.insertCell(8);
+
+    // Adding ID
+        cell0.innerHTML = userID;
+        cell0.style = "display: none";
 
     // Appending the data to the table
-        cell0.innerHTML = fullName;
-        cell1.innerHTML = emailID;
-        cell2.innerHTML = contact;
-        cell3.innerHTML = bookedDate;
-        cell4.innerHTML = bookedTime;
+        cell1.innerHTML = fullName;
+        cell2.innerHTML = emailID;
+        cell3.innerHTML = contact;
+        cell4.innerHTML = bookedDate;
+        cell5.innerHTML = bookedTime;
 
     // Adding 8th Column for maintaing serial number and setting its display property to none
-        cell7.innerHTML = ++serial;
-        cell7.style = "display: none";
+        cell8.innerHTML = ++serial;
+        cell8.style = "display: none";
 
     
 
@@ -99,7 +122,7 @@ function logInput(response)
         editBtn.appendChild(document.createTextNode('Edit'));
 
     // Appending Edit button to the column
-        cell5.appendChild(editBtn);
+        cell6.appendChild(editBtn);
 
 
         
@@ -116,7 +139,7 @@ function logInput(response)
         deleteBtn.appendChild(document.createTextNode('Delete'));
 
     // Appending Delete button to the column
-        cell6.appendChild(deleteBtn);
+        cell7.appendChild(deleteBtn);
 }
 
 
@@ -126,11 +149,11 @@ function removeItem(deleteItem)
 {
     // Variable to store Row Number
         var rowCount = (deleteItem.parentNode.parentNode.rowIndex);
-        var sn = deleteItem.parentNode.nextSibling.innerHTML;
+        var serialNumber = deleteItem.parentNode.nextSibling.innerHTML;
     // Deleting from the Selected Row
         document.getElementById('items').deleteRow(rowCount);
     // Deleting from the Cloud
-        // localStorage.removeItem(sn);
+        // localStorage.removeItem(serialNumber);
     // Decrementing count so that, count = the number of rows 
         count--;
 }
@@ -141,9 +164,9 @@ function editItem(editItem)
 {
     // Variable to store Row Number
         var rowCount = (editItem.parentNode.parentNode.rowIndex);
-        var sn = editItem.parentNode.nextSibling.nextSibling.innerHTML;
+        var serialNumber = editItem.parentNode.nextSibling.nextSibling.innerHTML;
     // Parsing the data from JSON
-        var obj = JSON.parse(localStorage.getItem(sn));
+        var obj = JSON.parse(localStorage.getItem(serialNumber));
     // Variable to store particular data from the object 
         var fullName = obj.Name;
         var emailID = obj.Email;
