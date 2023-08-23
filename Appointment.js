@@ -25,7 +25,7 @@
     window.addEventListener ("DOMContentLoaded", () => 
     {
         // GET Request
-            axios.get ("https://crudcrud.com/api/dc20ff41eab342bcb645d7108f372d28/appointmentData")
+            axios.get ("https://crudcrud.com/api/f114c83821954b8c9943e39da56c3024/appointmentData")
                 .then ((response) => 
                 {
                     for (let i = 0; i < response.data.length; i++)
@@ -61,9 +61,9 @@
             };
 
         // POST Request
-            axios.post ("https://crudcrud.com/api/dc20ff41eab342bcb645d7108f372d28/appointmentData", myObj)
-                .then (alert("Booking Confirmed"))
-                .catch (error => console.log (error));
+            axios.post("https://crudcrud.com/api/f114c83821954b8c9943e39da56c3024/appointmentData", myObj)
+                 .then(() => alert("Booking Confirmed"))
+                 .catch(error => console.log(error));
         
         // Resetting the form
             form.reset();
@@ -155,15 +155,17 @@
     function removeItem(deleteItem)
     {
         // Storing the _id from the database in a variable
-            var serialNumber = deleteItem._id;
+        var serialNumber = deleteItem._id;
 
         // DELETE request
-            axios.delete (`https://crudcrud.com/api/dc20ff41eab342bcb645d7108f372d28/appointmentData/${serialNumber}`)
-                .then (alert("Booking Deleted"))
-                .catch(error => console.error(error));
-        
-        // Refreshing the entire page
-            location.reload();
+        axios.delete(`https://crudcrud.com/api/f114c83821954b8c9943e39da56c3024/appointmentData/${serialNumber}`)
+             .then(() =>
+             {
+                alert("Booking Deleted");
+                // Refreshing the page after deletion
+                location.reload();
+             })
+            .catch(error => console.error(error));
     }
 
 
@@ -190,10 +192,11 @@
             document.getElementById('bookedTime').value = bookedTime;
         
         // DELETE request
-            axios.delete (`https://crudcrud.com/api/dc20ff41eab342bcb645d7108f372d28/appointmentData/${serialNumber}`)
-                .then ()
-                .catch(error => console.error(error));
+        axios.delete(`https://crudcrud.com/api/f114c83821954b8c9943e39da56c3024/appointmentData/${serialNumber}`)
+             .then()
+             .catch(error => console.error(error));
     }
+
 
 
 
